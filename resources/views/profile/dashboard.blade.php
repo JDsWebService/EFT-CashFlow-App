@@ -62,3 +62,13 @@
     </div>
 </div>
 @endsection
+
+@section('scripts')
+
+<script>
+    setTimeout(function(){
+   window.location.reload(1);
+}, 30000);
+</script>
+
+@endsection

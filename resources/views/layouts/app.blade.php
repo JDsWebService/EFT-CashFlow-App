@@ -30,8 +30,6 @@
 
     <!-- Scripts -->
     @include('partials.global._scripts')
-    <script type="text/javascript">
-        @yield('scripts')
-    </script>
+    @yield('scripts')
 </body>
 </html>
