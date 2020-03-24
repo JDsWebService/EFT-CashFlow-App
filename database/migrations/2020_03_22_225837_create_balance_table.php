@@ -18,6 +18,8 @@ class CreateBalanceTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->integer('balance_current');
             $table->integer('balance_change');
+            $table->text('color');
+            $table->integer('change_percent');
             $table->timestamps();
         });
 

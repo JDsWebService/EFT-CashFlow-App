@@ -27,6 +27,7 @@
 					<th>Entry ID #</th>
 					<th>Balance Update</th>
 					<th>Balance Change</th>
+					<th>Change Percentage</th>
 					<th>Updated At</th>
 					<th></th>
 				</thead>
@@ -37,8 +38,10 @@
 							<td>{{ $entry->balance_current }} &#8381;</td>
 							@if($entry->balance_change > 0)
 								<td><span class="text-success">{{ $entry->balance_change }}</span> &#8381;</td>
+								<td><span class="text-success">{{ $entry->change_percent }}%</span></td>
 							@else
 								<td><span class="text-danger">{{ $entry->balance_change }}</span> &#8381;</td>
+								<td><span class="text-danger">{{ $entry->change_percent }}%</span></td>
 							@endif
 							<td>{{ $entry->created_at->diffForHumans() }}</td>
 							<td>

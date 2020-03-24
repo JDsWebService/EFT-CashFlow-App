@@ -58,17 +58,24 @@ class BalanceController extends Controller
             // If Negative
             $current_balance = $user_balance - $difference;
             $difference = 0 - $difference;
+            $color = "#aa0000";
         } else {
             // If Positive
             $current_balance = $user_balance + $difference;
             $difference = 0 + $difference;
+            $color = "#00aa00";
         }
+
+        // Get The Percentage Change
+        $percentage = $this->getPercentageChange($user_balance, $entry);
 
         // Open New Balance Entry & Update
         $balance = new Balance;
         $balance->user_id = $user->id;
         $balance->balance_current = $entry;
         $balance->balance_change = $difference;
+        $balance->color = $color;
+        $balance->change_percent = $percentage;
         $balance->save();
 
         // Update Users Current Balance
@@ -117,7 +124,6 @@ class BalanceController extends Controller
 
         // Calculate if the difference
         $difference = abs($previous_balance - intval(Purifier::clean($request->entry)));
-        // dd($difference);
 
         if($difference == 0) {
             Session::flash('danger', 'Previous Balance Is The Same As Entry. Please Update To Current Balance at the time of entry.');
@@ -129,15 +135,22 @@ class BalanceController extends Controller
             // If Negative
             $updated_balance = $previous_balance - $difference;
             $difference = 0 - $difference;
+            $color = "#aa0000";
         } else {
             // If Positive
             $updated_balance = $previous_balance + $difference;
             $difference = 0 + $difference;
-        }        
+            $color = "#00aa00";
+        }
+
+        // Get The Percentage Change
+        $percentage = $this->getPercentageChange($previous_balance, $request->entry);
 
         // Update the balance
         $balance->balance_current = $request->entry;
         $balance->balance_change = $difference;
+        $balance->color = $color;
+        $balance->change_percent = $percentage;
         $balance->save();
 
         // Flash a message and redirect
@@ -153,6 +166,26 @@ class BalanceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Should I Add This?
+    }
+
+    // ---------------------
+    // Helper Functions
+    // ---------------------
+    /**
+    * Calculates in percent, the change between 2 numbers.
+    * e.g from 1000 to 500 = 50%
+    * 
+    * @param oldNumber The initial value
+    * @param newNumber The value that changed
+    */
+    function getPercentageChange($oldNumber, $newNumber){
+        if($oldNumber == 0) {
+            return 100;
+        }
+        $decreaseValue = $oldNumber - $newNumber;
+        $percentage = ($decreaseValue / $oldNumber) * 100;
+        $percentage = $percentage * -1;
+        return $percentage;
     }
 }

@@ -4,9 +4,7 @@
     {{-- Header --}}
     @include('partials.global._head')
 
-    <style type="text/css">
-        @yield('stylesheets')
-    </style>
+    @yield('stylesheets')
 </head>
 <body>
     <div id="app">
